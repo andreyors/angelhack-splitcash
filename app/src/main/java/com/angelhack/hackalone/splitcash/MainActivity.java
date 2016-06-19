@@ -9,13 +9,15 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
 
-public class MainActivity extends ActionBarActivity implements DeviceListFragment.OnFragmentInteractionListener  {
+public class MainActivity extends AppCompatActivity implements DeviceListFragment.OnFragmentInteractionListener  {
+    private static final String TAG = "MainActivity";
+
     private DeviceListFragment mDeviceListFragment;
     private BluetoothAdapter BTAdapter;
 
@@ -49,7 +51,7 @@ public class MainActivity extends ActionBarActivity implements DeviceListFragmen
                     break;
             }
 
-            Log.d("Change State", message);
+            Log.d(TAG, message);
         }
     };
 
@@ -90,10 +92,10 @@ public class MainActivity extends ActionBarActivity implements DeviceListFragmen
         String mydevicename = BTAdapter.getName();
         String status = mydevicename + " : " + mydeviceaddress;
 
-        Toast.makeText(this, status, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, status, Toast.LENGTH_SHORT).show();
 
         DeviceUuidFactory deviceUuidFactory = new DeviceUuidFactory(getApplicationContext());
-        Toast.makeText(this, deviceUuidFactory.getDeviceUuid().toString(), Toast.LENGTH_LONG).show();
+        Toast.makeText(this, deviceUuidFactory.getDeviceUuid().toString(), Toast.LENGTH_SHORT).show();
 
         FragmentManager fragmentManager = getSupportFragmentManager();
 

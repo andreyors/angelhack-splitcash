@@ -23,6 +23,8 @@ public class SplashActivity extends AppCompatActivity {
                     object = MainActivity.class;
                 }
 
+                object = AskForMoneyActivity.class;
+
                 intent = new Intent(getApplicationContext(), object);
 
                 startActivity(intent);

@@ -87,7 +87,6 @@ public class DeviceListFragment extends Fragment implements AbsListView.OnItemCl
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         Log.d("DEVICELIST", "Super called for DeviceListFragment onCreate\n");
         deviceItemList = new ArrayList<DeviceItem>();
 
