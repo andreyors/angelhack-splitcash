@@ -12,9 +12,6 @@ import android.widget.TextView;
 
 import java.util.List;
 
-/**
- * Created by Matt on 5/12/2015.
- */
 public class DeviceListAdapter extends ArrayAdapter<DeviceItem>{
 
     private Context context;

@@ -1,8 +1,5 @@
 package com.angelhack.hackalone.splitcash;
 
-/**
- * Created by Matt on 5/12/2015.
- */
 public class DeviceItem {
 
     private String deviceName;
