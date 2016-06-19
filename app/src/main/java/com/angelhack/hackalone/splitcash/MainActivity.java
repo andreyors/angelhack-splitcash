@@ -54,6 +54,9 @@ public class MainActivity extends ActionBarActivity implements DeviceListFragmen
 
         Toast.makeText(this, status, Toast.LENGTH_LONG).show();
 
+        DeviceUuidFactory deviceUuidFactory = new DeviceUuidFactory(getApplicationContext());
+        Toast.makeText(this, deviceUuidFactory.getDeviceUuid().toString(), Toast.LENGTH_LONG).show();
+
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         mDeviceListFragment = DeviceListFragment.newInstance(BTAdapter);
