@@ -3,17 +3,45 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
-    android:background="@android:color/white">
-    <ImageView
-        android:id="@+id/image_in_item"
-        android:layout_width="100dp"
-        android:layout_height="100dp"/>
+    android:padding="10dp">
     <TextView
-        android:id="@+id/textview_in_item"
+        android:id="@+id/contact_name_in_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16sp"
-        android:layout_toRightOf="@+id/image_in_item"
-        android:layout_marginLeft="10dp"/>
+        android:layout_marginLeft="10dp"
+        android:text="Contact Name" />
+    <TextView
+        android:id="@+id/amount_in_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:text="Amount"
+        android:layout_alignTop="@+id/date_in_item"
+        android:layout_toLeftOf="@+id/date_in_item"
+        android:layout_toStartOf="@+id/date_in_item"
+        android:paddingRight="16dp"
+        android:textStyle="bold" />
+    <TextView
+        android:id="@+id/date_in_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:text="Date"
+        android:layout_alignTop="@+id/contact_name_in_item"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:textStyle="italic" />
+
+    <TextView
+        android:id="@+id/currency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:text="€"
+        android:paddingRight="5dp"
+        android:layout_alignTop="@+id/amount_in_item"
+        android:layout_toLeftOf="@+id/amount_in_item"
+        android:layout_toStartOf="@+id/amount_in_item"
+        android:textStyle="bold" />
 </RelativeLayout>

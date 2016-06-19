@@ -4,61 +4,75 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-import butterknife.ButterKnife;
+import java.util.ArrayList;
+
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class ActivityListAdapter extends BaseAdapter {
 
-    LayoutInflater inflater;
+    private static ArrayList<ActivityItem> list = new ArrayList<ActivityItem>();
 
-    public ActivityListAdapter(LayoutInflater inflater) {
-        this.inflater = inflater;
+    private final LayoutInflater inflater;
+
+    public ActivityListAdapter(LayoutInflater layoutInflater) {
+        inflater = layoutInflater;
+
+        list.clear();
+
+        list.add(new ActivityItem("John Doe", "debt", "20", "18 Jun 2016", true));
+        list.add(new ActivityItem("Lennie Dark", "credit", "16", "19 Jun 2016", true));
+        list.add(new ActivityItem("Lennie Dark", "debt", "16", "19 Jun 2016", true));
     }
 
     @Override
     public int getCount() {
-        return 0;
+        return list.size();
     }
 
     @Override
-    public Object getItem(int position) {
-        return null;
+    public ActivityItem getItem(int position) {
+        return list.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View view, ViewGroup parent) {
         ViewHolder holder;
+        if (view != null) {
+            holder = (ViewHolder) view.getTag();
+        } else {
+            view = inflater.inflate(R.layout.activity_item, parent, false);
+            holder = new ViewHolder(view);
+            view.setTag(holder);
+        }
 
-        View view = inflater.inflate(R.layout.activity_item, parent, false);
-        holder = new ViewHolder(view);
+        ActivityItem item = getItem(position);
 
-        Picasso.with(inflater.getContext())
-                .load("https://split-cash-justhack.c9users.io/api/contacts/" + (position+1))
-                .into(holder.image);
-
-        holder.text.setText("This is a text for the image number: "+position);
+        holder.contact_name.setText((item.getType() == "debt" ? ">" : "<") + " " + item.getContactName());
+        holder.date.setText(item.getDate());
+        holder.amount.setText(item.getAmount());
 
         return view;
     }
 
-    static class ViewHolder{
-        @Bind(R.id.image_in_item)
-        ImageView image;
+    static final class ViewHolder {
+        @Bind(R.id.contact_name_in_item)
+        TextView contact_name;
+        @Bind(R.id.date_in_item)
+        TextView date;
+        @Bind(R.id.amount_in_item)
+        TextView amount;
 
-        @Bind(R.id.textview_in_item)
-        TextView text;
-
-        public ViewHolder(View view){
+        ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
     }
+
 }

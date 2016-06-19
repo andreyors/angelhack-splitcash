@@ -19,11 +19,9 @@ public class SplashActivity extends AppCompatActivity {
                 Intent intent;
                 Class object = LoginActivity.class;
 
-                if (!output.equals("OK")) {
+                if (output.equals("OK")) {
                     object = MainActivity.class;
                 }
-
-                object = AskForMoneyActivity.class;
 
                 intent = new Intent(getApplicationContext(), object);
 
