@@ -1,26 +1,57 @@
 package com.angelhack.hackalone.splitcash;
 
+import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AlertDialog;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.util.Log;
 import android.widget.Toast;
 
 
 public class MainActivity extends ActionBarActivity implements DeviceListFragment.OnFragmentInteractionListener  {
-
-
     private DeviceListFragment mDeviceListFragment;
     private BluetoothAdapter BTAdapter;
 
-
+    public static int DISCOVERABLE_DURATION = 300;
     public static int REQUEST_BLUETOOTH = 1;
-    
+    public static int DISCOVERABLE_BT_REQUEST_CODE = 2;
+
+    BroadcastReceiver bluetoothState = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String stateExtra = BluetoothAdapter.EXTRA_STATE;
+            int state = intent.getIntExtra(stateExtra, 0);
+
+            String message;
+
+            switch(state) {
+                case (BluetoothAdapter.STATE_TURNING_ON) :
+                    message = "Bluetooth turning on";
+                    break;
+                case (BluetoothAdapter.STATE_ON) :
+                    message = "Bluetooth on";
+                    break;
+                case (BluetoothAdapter.STATE_TURNING_OFF) :
+                    message = "Bluetooth turning off";
+                    break;
+                case (BluetoothAdapter.STATE_OFF) :
+                    message = "Bluetooth off";
+                    break;
+                default:
+                    message = "";
+                    break;
+            }
+
+            Log.d("Change State", message);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +79,13 @@ public class MainActivity extends ActionBarActivity implements DeviceListFragmen
             startActivityForResult(enableBT, REQUEST_BLUETOOTH);
         }
 
+//        Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+//        discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, DISCOVERABLE_DURATION);
+//        startActivityForResult(discoverableIntent, DISCOVERABLE_BT_REQUEST_CODE);
+
+        String actionState = BTAdapter.ACTION_STATE_CHANGED;
+        registerReceiver(bluetoothState, new IntentFilter(actionState));
+
         String mydeviceaddress = BTAdapter.getAddress();
         String mydevicename = BTAdapter.getName();
         String status = mydevicename + " : " + mydeviceaddress;
@@ -65,29 +103,30 @@ public class MainActivity extends ActionBarActivity implements DeviceListFragmen
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_list, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     public void onFragmentInteraction(String id) {
+        Toast.makeText(getApplicationContext(), "HOOO" + id, Toast.LENGTH_SHORT);
+    }
 
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_BLUETOOTH) {
+            if (resultCode == Activity.RESULT_OK) {
+                Toast.makeText(getApplicationContext(), "Ha! Bluetooth has been enabled.",
+                        Toast.LENGTH_SHORT).show();
+            } else { // RESULT_CANCELED as user refuse or failed
+                Toast.makeText(getApplicationContext(), "Bluetooth is required.",
+                        Toast.LENGTH_SHORT).show();
+
+                finish();
+            }
+        } else if (requestCode == DISCOVERABLE_BT_REQUEST_CODE) {
+            if (resultCode == DISCOVERABLE_DURATION){
+                Toast.makeText(getApplicationContext(), "Your device is now discoverable by other devices for " +
+                                DISCOVERABLE_DURATION + " seconds",
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "Fail to enable discoverability on your device.",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }
