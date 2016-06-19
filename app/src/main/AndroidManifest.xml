@@ -33,7 +33,7 @@
                     android:scheme="http" />
             </intent-filter>
         </activity>
-        <activity android:name=".AskActivity" android:theme="@style/AppTheme.Dark"/>
+        <activity android:name=".AskActivity" android:theme="@style/AppTheme"/>
         <activity android:name=".LoginActivity" android:theme="@style/AppTheme.Dark" />
         <activity android:name=".SignupActivity" android:theme="@style/AppTheme.Dark" />
         <activity android:name=".MainActivity" android:theme="@style/AppTheme" />
